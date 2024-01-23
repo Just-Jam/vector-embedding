@@ -19,11 +19,13 @@ def vectorize_csv(filename):
     loader = CSVLoader(file_path=DATA_PATH+filename)
     documents = loader.load()
 
-    st.write(documents)
-    # embeddings = OpenAIEmbeddings()
-    # db = FAISS.from_documents(documents, embeddings)
-    # FAISS_NAME = filename.split(".")[0]
-    # db.save_local(DB_FAISS_PATH+FAISS_NAME)
+    st.write("Generating Embeddings")
+    embeddings = OpenAIEmbeddings()
+    st.write("Creating FAISS DB")
+    db = FAISS.from_documents(texts, embeddings)
+    FAISS_NAME = filename.split(".")[0]
+    db.save_local(DB_FAISS_PATH+FAISS_NAME)
+    st.write("Vector Store Complete")
 
 def vectorize_pdf(filename):
     st.write("Vectorizing PDF...")
@@ -49,7 +51,7 @@ def save_uploadedfile(uploadedfile):
 # Get input file from user
 def main():
     st.set_page_config(
-        page_title="Vectorize Your DAta", page_icon=":bird:")
+        page_title="Vectorize Your Data", page_icon=":bird:")
 
     st.header("Vector Embeddings")
 
